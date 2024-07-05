@@ -14,7 +14,7 @@ export default function Header() {
                             <Link href={"/books"}>Books</Link>
                         </li>
                         <li>
-                            <Link href={"/authors"}>Authors</Link>
+                            <Link href={"/authors"}>Add New</Link>
                         </li>
                     </ul>
                 </nav>

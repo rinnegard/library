@@ -13,11 +13,11 @@ export default function Footer() {
                 </div>
                 <div className="flex-1 text-center">
                     <ul>
-                        <li>Library</li>
-                        <li>Library</li>
-                        <li>Library</li>
-                        <li>Library</li>
-                        <li>Library</li>
+                        <li>Library 1</li>
+                        <li>Library 2</li>
+                        <li>Library 3</li>
+                        <li>Library 4</li>
+                        <li>Library 5</li>
                     </ul>
                 </div>
                 <div className="flex-1 text-center">
