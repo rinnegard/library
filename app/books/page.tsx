@@ -1,14 +1,24 @@
 import prisma from "@/lib/prisma";
 import Main from "../components/main";
+import BookItem from "./book-item";
 
-export default async function Books() {
+export default async function BooksPage() {
     const books = await prisma.books.findMany();
     return (
         <Main>
             <h1 className="text-3xl text-center">Books</h1>
             <ul>
                 {books.map((book) => {
-                    return <li key={book.id}>{book.title}</li>;
+                    return (
+                        <BookItem
+                            key={book.id}
+                            id={book.id}
+                            title={book.title}
+                            author={book.author}
+                            published={book.published}
+                            isbn={book.isbn}
+                        ></BookItem>
+                    );
                 })}
             </ul>
         </Main>
