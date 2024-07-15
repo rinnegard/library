@@ -36,10 +36,10 @@ export default function Header() {
                         </li>
                         <li>
                             <Link
-                                href={"/authors"}
+                                href={"/addnew"}
                                 className={
                                     "hover:text-gray-700 " +
-                                    (currentPath === "/authors"
+                                    (currentPath === "/addnew"
                                         ? "underline"
                                         : "")
                                 }
