@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <footer className="bg-lime-300 flex justify-center gap-6 p-3">
-            <div className="flex flex-row justify-center gap-6 p-3 flex-shrink-0 max-w-screen-2xl">
+            <div className="flex flex-row justify-center gap-6 p-3 max-w-screen-2xl">
                 <div className="flex-1 text-center">
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
