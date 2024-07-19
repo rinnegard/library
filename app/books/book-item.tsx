@@ -8,15 +8,11 @@ export default function BookItem({
     isbn,
 }: Books) {
     return (
-        <li key={id} className="p-4">
-            Title: {title}
-            <ul>
-                <li>Author: {author}</li>
-
-                <li>Published: {published.toLocaleDateString()}</li>
-
-                <li>ISBN: {isbn}</li>
-            </ul>
-        </li>
+        <tr key={id} className="p-4">
+            <td>{title}</td>
+            <td>{author}</td>
+            <td>{published.toLocaleDateString()}</td>
+            <td>{isbn}</td>
+        </tr>
     );
 }

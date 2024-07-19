@@ -7,11 +7,21 @@ export default async function BooksPage() {
     return (
         <Main>
             <h1 className="text-3xl text-center">Books</h1>
-            <ul>
-                {books.map((book) => {
-                    return <BookItem key={book.id} {...book}></BookItem>;
-                })}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Published</th>
+                        <th>ISBN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {books.map((book) => {
+                        return <BookItem key={book.id} {...book}></BookItem>;
+                    })}
+                </tbody>
+            </table>
         </Main>
     );
 }
