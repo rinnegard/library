@@ -14,7 +14,7 @@ export default function BookItem({
     formattedDate,
 }: BookItemProps) {
     function handleClick() {
-        const doDelete = confirm(`Are you sure you want to delete "${title}"`);
+        const doDelete = confirm(`Are you sure you want to delete "${title}"?`);
 
         if (doDelete) {
             deleteBookAction(id);

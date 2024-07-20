@@ -1,6 +1,15 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+const UpdateSchema = z.object({
+    id: z.string().cuid(),
+    title: z.string().min(1),
+    author: z.string().min(1).nullish(),
+    published: z.string().min(1).date(),
+    isnb: z.string().min(3),
+});
 
 export async function deleteBookAction(id: string) {
     "use server";
@@ -28,6 +37,8 @@ export async function getBookAction(id: string) {
 
 export async function updateBookAction(formData: FormData) {
     const data = Object.fromEntries(formData.entries());
+
+    const validatedData = UpdateSchema.safeParseAsync(data);
 
     console.log(data);
     console.log(data.title);
