@@ -35,8 +35,3 @@ export default async function createBookAction(formData: FormData) {
 
     redirect("/books");
 }
-
-export async function deleteBookAction(id: string) {
-    "use server";
-    console.log(id);
-}
