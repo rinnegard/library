@@ -1,4 +1,8 @@
+"use client";
 import { type Books } from "@prisma/client";
+import deleteBookAction from "./actions";
+
+type BookItemProps = Books & { formattedDate: string };
 
 export default function BookItem({
     id,
@@ -6,13 +10,31 @@ export default function BookItem({
     author,
     published,
     isbn,
-}: Books) {
+    formattedDate,
+}: BookItemProps) {
+    function handleClick() {
+        const doDelete = confirm(`Are you sure you want to delete "${title}"`);
+
+        if (doDelete) {
+            deleteBookAction(id);
+        }
+    }
+
     return (
-        <tr key={id} className="p-4">
-            <td>{title}</td>
-            <td>{author}</td>
-            <td>{published.toLocaleDateString()}</td>
-            <td>{isbn}</td>
+        <tr key={id} className="odd:bg-slate-200">
+            <td className="p-2">{title}</td>
+            <td className="p-2">{author}</td>
+            <td className="p-2">{formattedDate}</td>
+            <td className="p-2">{isbn}</td>
+            <td className="p-2">
+                <button
+                    onClick={handleClick}
+                    type="button"
+                    className="bg-red-600 w-5 rounded-full"
+                >
+                    X
+                </button>
+            </td>
         </tr>
     );
 }

@@ -7,10 +7,10 @@ export default async function BooksPage() {
     return (
         <Main>
             <h1 className="text-3xl text-center">Books</h1>
-            <table>
+            <table className="mx-auto my-10 bg-slate-400 rounded-md">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th className="p-4">Title</th>
                         <th>Author</th>
                         <th>Published</th>
                         <th>ISBN</th>
@@ -18,7 +18,13 @@ export default async function BooksPage() {
                 </thead>
                 <tbody>
                     {books.map((book) => {
-                        return <BookItem key={book.id} {...book}></BookItem>;
+                        return (
+                            <BookItem
+                                key={book.id}
+                                {...book}
+                                formattedDate={book.published.toLocaleDateString()}
+                            ></BookItem>
+                        );
                     })}
                 </tbody>
             </table>
