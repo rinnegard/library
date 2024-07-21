@@ -1,6 +1,25 @@
+"use server";
 import prisma from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { z } from "zod";
+
+export type AddBookSuccess = {
+    success: true;
+};
+
+export type AddBookFail = {
+    success: false;
+    errors: Zod.ZodFormattedError<
+        {
+            title: string;
+            author: string;
+            published: string;
+            isbn: string;
+        },
+        string
+    >;
+};
+
+export type AddBookResult = AddBookFail | AddBookSuccess;
 
 const AddBookSchema = z.object({
     title: z.string().trim().min(1),
@@ -15,20 +34,26 @@ const AddBookSchema = z.object({
     isbn: z.string().trim().min(3),
 });
 
-export default async function createBookAction(formData: FormData) {
+export default async function createBookAction(
+    formData: FormData
+): Promise<AddBookResult> {
     "use server";
     const data = Object.fromEntries(formData);
 
     const parseResult = await AddBookSchema.safeParseAsync(data);
 
-    console.log(parseResult.error?.issues);
-
     if (parseResult.success) {
         await prisma.books.create({
             data: parseResult.data,
         });
-        redirect("/books");
+        return {
+            success: true,
+        };
     } else {
-        // return parseResult.error;
+        const formattedErrors = parseResult.error.format();
+        return {
+            success: false,
+            errors: formattedErrors,
+        };
     }
 }

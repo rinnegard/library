@@ -1,11 +1,31 @@
+"use client";
+import { useState } from "react";
+import FormError from "../components/form-error";
 import Main from "../components/main";
-import createBookAction from "./actions";
+import createBookAction, { AddBookFail } from "./actions";
+import { redirect } from "next/navigation";
 
 export default function AddNewPage() {
+    const [errors, setErrors] = useState<AddBookFail["errors"] | undefined>(
+        undefined
+    );
+
+    async function action(formData: FormData) {
+        const result = await createBookAction(formData);
+
+        if (result.success) {
+            console.log(result);
+            setErrors(undefined);
+            redirect("/books");
+        }
+
+        setErrors(result.errors);
+    }
+
     return (
         <Main>
             <h1 className="text-3xl text-center">Add New Book</h1>
-            <form action={createBookAction} className="flex flex-col px-2">
+            <form action={action} className="flex flex-col px-2">
                 <label htmlFor="title" className="pt-4">
                     Title
                 </label>
@@ -15,6 +35,7 @@ export default function AddNewPage() {
                     id="title"
                     className="border border-lime-300"
                 />
+                <FormError errors={errors?.title?._errors}></FormError>
                 <label htmlFor="author" className="pt-4">
                     Author
                 </label>
@@ -24,6 +45,7 @@ export default function AddNewPage() {
                     id="author"
                     className="border border-lime-300"
                 />
+                <FormError errors={errors?.author?._errors}></FormError>
                 <label htmlFor="published" className="pt-4">
                     Published
                 </label>
@@ -33,6 +55,7 @@ export default function AddNewPage() {
                     id="published"
                     className="border border-lime-300"
                 />
+                <FormError errors={errors?.published?._errors}></FormError>
                 <label htmlFor="isbn" className="pt-4">
                     ISBN
                 </label>
@@ -42,6 +65,7 @@ export default function AddNewPage() {
                     id="isbn"
                     className="border border-lime-300"
                 />
+                <FormError errors={errors?.isbn?._errors}></FormError>
                 <button
                     type="submit"
                     className="mt-4 bg-lime-300 h-10 w-1/2 self-center hover:bg-lime-400 active:bg-lime-500"

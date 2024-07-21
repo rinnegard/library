@@ -4,11 +4,17 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const UpdateSchema = z.object({
-    id: z.string().cuid(),
-    title: z.string().min(1),
-    author: z.string().min(1).nullish(),
-    published: z.string().min(1).date(),
-    isnb: z.string().min(3),
+    id: z.string().trim().cuid(),
+    title: z.string().trim().min(1),
+    author: z.string().trim().min(1),
+    published: z
+        .string()
+        .date()
+        .transform((val) => {
+            const date = new Date(val);
+            return date;
+        }),
+    isbn: z.string().trim().min(3),
 });
 
 export async function deleteBookAction(id: string) {
