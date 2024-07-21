@@ -38,7 +38,7 @@ export const UpdateSchema = z.object({
     author: z.string().trim().min(1),
     published: z
         .string()
-        .date()
+        .date("Invalid date, please use YYYY-MM-DD format")
         .transform((val) => {
             const date = new Date(val);
             return date;

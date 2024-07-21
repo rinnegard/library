@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { UpdateSchema } from "../schema";
+import { AddBookResult, UpdateSchema } from "../schema";
 
 export async function deleteBookAction(id: string) {
     "use server";
@@ -27,7 +27,9 @@ export async function getBookAction(id: string) {
     return result;
 }
 
-export async function updateBookAction(formData: FormData) {
+export async function updateBookAction(
+    formData: FormData
+): Promise<AddBookResult> {
     const data = Object.fromEntries(formData.entries());
 
     const parseResult = await UpdateSchema.safeParseAsync(data);
@@ -50,5 +52,10 @@ export async function updateBookAction(formData: FormData) {
             success: true,
         };
     } else {
+        const formattedErrors = parseResult.error.format();
+        return {
+            success: false,
+            errors: formattedErrors,
+        };
     }
 }
