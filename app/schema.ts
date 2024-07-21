@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma";
 import { z } from "zod";
 
 export type AddBookSuccess = {
@@ -29,7 +30,19 @@ export const AddBookSchema = z.object({
             const date = new Date(val);
             return date;
         }),
-    isbn: z.string().trim().min(3),
+    isbn: z
+        .string()
+        .trim()
+        .min(3)
+        .refine(async (current) => {
+            const count = await prisma.books.count({
+                where: {
+                    isbn: current,
+                },
+            });
+
+            return count < 1;
+        }, "ISBN is already being used"),
 });
 
 export const UpdateSchema = z.object({
@@ -43,5 +56,17 @@ export const UpdateSchema = z.object({
             const date = new Date(val);
             return date;
         }),
-    isbn: z.string().trim().min(3),
+    isbn: z
+        .string()
+        .trim()
+        .min(3)
+        .refine(async (current) => {
+            const count = await prisma.books.count({
+                where: {
+                    isbn: current,
+                },
+            });
+
+            return count < 1;
+        }, "ISBN is already being used"),
 });
