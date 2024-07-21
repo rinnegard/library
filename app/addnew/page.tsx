@@ -2,8 +2,9 @@
 import { useState } from "react";
 import FormError from "../components/form-error";
 import Main from "../components/main";
-import createBookAction, { AddBookFail } from "./actions";
+import createBookAction from "./actions";
 import { redirect } from "next/navigation";
+import { AddBookFail } from "../schema";
 
 export default function AddNewPage() {
     const [errors, setErrors] = useState<AddBookFail["errors"] | undefined>(

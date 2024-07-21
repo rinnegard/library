@@ -1,21 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
-
-const UpdateSchema = z.object({
-    id: z.string().trim().cuid(),
-    title: z.string().trim().min(1),
-    author: z.string().trim().min(1),
-    published: z
-        .string()
-        .date()
-        .transform((val) => {
-            const date = new Date(val);
-            return date;
-        }),
-    isbn: z.string().trim().min(3),
-});
+import { UpdateSchema } from "../schema";
 
 export async function deleteBookAction(id: string) {
     "use server";
@@ -44,31 +30,25 @@ export async function getBookAction(id: string) {
 export async function updateBookAction(formData: FormData) {
     const data = Object.fromEntries(formData.entries());
 
-    const validatedData = UpdateSchema.safeParseAsync(data);
+    const parseResult = await UpdateSchema.safeParseAsync(data);
 
-    console.log(data);
-    console.log(data.title);
-
-    if (
-        typeof data.id === "string" &&
-        typeof data.title === "string" &&
-        typeof data.author === "string" &&
-        typeof data.published === "string" &&
-        typeof data.isbn === "string"
-    ) {
+    if (parseResult.success) {
         const result = await prisma.books.update({
             where: {
-                id: data.id,
+                id: parseResult.data.id,
             },
             data: {
-                title: data.title,
-                author: data.author,
-                published: new Date(data.published),
-                isbn: data.isbn,
+                title: parseResult.data.title,
+                author: parseResult.data.author,
+                published: parseResult.data.published,
+                isbn: parseResult.data.isbn,
             },
         });
 
-        console.log(result);
         revalidatePath("/books");
+        return {
+            success: true,
+        };
+    } else {
     }
 }
