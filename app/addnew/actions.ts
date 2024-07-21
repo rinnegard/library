@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export type AddBookSuccess = {
@@ -26,7 +27,7 @@ const AddBookSchema = z.object({
     author: z.string().trim().min(1),
     published: z
         .string()
-        .date()
+        .date("Invalid date, please use YYYY-MM-DD format")
         .transform((val) => {
             const date = new Date(val);
             return date;
@@ -46,6 +47,8 @@ export default async function createBookAction(
         await prisma.books.create({
             data: parseResult.data,
         });
+
+        revalidatePath("/books");
         return {
             success: true,
         };
