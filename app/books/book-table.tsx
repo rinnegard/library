@@ -8,39 +8,66 @@ type BookTableProps = {
     books: Books[];
 };
 
-type BookIndex = "id" | "title" | "author" | "published" | "isbn";
+type BookIndex = "title" | "author" | "published" | "isbn";
+type SortOrder = "asc" | "desc" | undefined;
+type SortTracker = {
+    title: SortOrder;
+    author: SortOrder;
+    published: SortOrder;
+    isbn: SortOrder;
+};
 
 export default function BookTable({ books }: BookTableProps) {
     const [sortedBooks, setSortedBooks] = useState(books);
+    const [sortTracker, setSortTracker] = useState<SortTracker>({
+        title: undefined,
+        author: undefined,
+        published: undefined,
+        isbn: undefined,
+    });
+
     function sortBooks(sortBy: BookIndex) {
-        console.log(sortedBooks);
+        console.log(sortTracker);
 
         setSortedBooks(
             [...sortedBooks].sort((a, b) => {
+                let first;
+                let second;
                 if (
-                    typeof a[sortBy] === "string" &&
-                    typeof b[sortBy] === "string"
+                    sortTracker[sortBy] === "desc" ||
+                    sortTracker[sortBy] === undefined
                 ) {
-                    console.log("sorting strings");
+                    first = a[sortBy];
+                    second = b[sortBy];
+                } else {
+                    first = b[sortBy];
+                    second = a[sortBy];
+                }
 
-                    return Number(a[sortBy].localeCompare(b[sortBy]));
-                } else if (
-                    a[sortBy] instanceof Date &&
-                    b[sortBy] instanceof Date
-                ) {
-                    if (a[sortBy] > b[sortBy]) {
+                if (typeof first === "string" && typeof second === "string") {
+                    return Number(first.localeCompare(second));
+                } else if (first instanceof Date && second instanceof Date) {
+                    if (first > second) {
                         return 1;
-                    } else if (a[sortBy] < b[sortBy]) {
+                    } else if (first < second) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
-                console.log("Never reached??");
+                console.log("Never reached, typescript error?");
                 return 0;
             })
         );
-        console.log(sortedBooks);
+
+        if (
+            sortTracker[sortBy] === "desc" ||
+            sortTracker[sortBy] === undefined
+        ) {
+            sortTracker[sortBy] = "asc";
+        } else {
+            sortTracker[sortBy] = "desc";
+        }
     }
     return (
         <table className="mx-auto my-10 bg-slate-400 rounded-md">
