@@ -2,6 +2,8 @@
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
 import { ReactNode, useState } from "react";
+import { searchBookAction } from "./actions";
+import { useSearchParams } from "next/navigation";
 
 type BookTableProps = {
     books: Books[];
@@ -18,6 +20,7 @@ type SortTracker = {
 
 export default function BookTable({ books }: BookTableProps) {
     const [sortedBooks, setSortedBooks] = useState(books);
+    const [searchParam, setSearchParam] = useState("");
     const [sortTracker, setSortTracker] = useState<SortTracker>({
         title: undefined,
         author: undefined,
@@ -90,54 +93,80 @@ export default function BookTable({ books }: BookTableProps) {
     }
 
     return (
-        <table className="mx-auto my-10 bg-slate-400 rounded-md">
-            <thead>
-                <tr>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
-                        onClick={() => {
-                            sortBooks("title");
-                        }}
-                    >
-                        Title{showSortArrow("title")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
-                        onClick={() => {
-                            sortBooks("author");
-                        }}
-                    >
-                        Author{showSortArrow("author")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer text-nowrap"
-                        onClick={() => {
-                            sortBooks("published");
-                        }}
-                    >
-                        Published{showSortArrow("published")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
-                        onClick={() => {
-                            sortBooks("isbn");
-                        }}
-                    >
-                        ISBN{showSortArrow("isbn")}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {sortedBooks.map((book) => {
-                    return (
-                        <BookItem
-                            key={book.id}
-                            {...book}
-                            formattedDate={book.published.toLocaleDateString()}
-                        ></BookItem>
-                    );
-                })}
-            </tbody>
-        </table>
+        <div>
+            <form
+                className="flex justify-center"
+                action={async () => {
+                    setSortedBooks(await searchBookAction(searchParam));
+                }}
+            >
+                <input
+                    className="border border-lime-300 rounded-l-md outline-none pl-2"
+                    type="search"
+                    name=""
+                    id=""
+                    value={searchParam}
+                    onChange={(e) => {
+                        setSearchParam(e.target.value);
+                    }}
+                />
+                <button
+                    type="submit"
+                    className="bg-lime-300 border border-lime-300 rounded-r-md"
+                >
+                    Search
+                </button>
+            </form>
+
+            <table className="mx-auto my-2 bg-slate-400 rounded-md">
+                <thead>
+                    <tr>
+                        <th
+                            className="p-4 hover:underline cursor-pointer"
+                            onClick={() => {
+                                sortBooks("title");
+                            }}
+                        >
+                            Title{showSortArrow("title")}
+                        </th>
+                        <th
+                            className="p-4 hover:underline cursor-pointer"
+                            onClick={() => {
+                                sortBooks("author");
+                            }}
+                        >
+                            Author{showSortArrow("author")}
+                        </th>
+                        <th
+                            className="p-4 hover:underline cursor-pointer text-nowrap"
+                            onClick={() => {
+                                sortBooks("published");
+                            }}
+                        >
+                            Published{showSortArrow("published")}
+                        </th>
+                        <th
+                            className="p-4 hover:underline cursor-pointer"
+                            onClick={() => {
+                                sortBooks("isbn");
+                            }}
+                        >
+                            ISBN{showSortArrow("isbn")}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedBooks.map((book) => {
+                        return (
+                            <BookItem
+                                key={book.id}
+                                {...book}
+                                formattedDate={book.published.toLocaleDateString()}
+                            ></BookItem>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div>
     );
 }

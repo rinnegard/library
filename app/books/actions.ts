@@ -59,3 +59,21 @@ export async function updateBookAction(
         };
     }
 }
+
+export async function searchBookAction(searchParam: string) {
+    return await prisma.books.findMany({
+        where: {
+            OR: [
+                {
+                    title: { contains: searchParam, mode: "insensitive" },
+                },
+                {
+                    author: { contains: searchParam, mode: "insensitive" },
+                },
+                {
+                    isbn: { contains: searchParam, mode: "insensitive" },
+                },
+            ],
+        },
+    });
+}

@@ -8,6 +8,7 @@ export default async function BooksPage() {
     return (
         <Main>
             <h1 className="text-3xl text-center">Books</h1>
+
             <BookTable books={books}></BookTable>
         </Main>
     );
