@@ -2,7 +2,6 @@
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
 import { ReactNode, useState } from "react";
-import { isDate } from "node:util";
 
 type BookTableProps = {
     books: Books[];
@@ -27,8 +26,6 @@ export default function BookTable({ books }: BookTableProps) {
     });
 
     function sortBooks(sortBy: BookIndex) {
-        console.log(sortTracker);
-
         setSortedBooks(
             [...sortedBooks].sort((a, b) => {
                 let first;
