@@ -1,7 +1,7 @@
 "use client";
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { isDate } from "node:util";
 
 type BookTableProps = {
@@ -60,15 +60,38 @@ export default function BookTable({ books }: BookTableProps) {
             })
         );
 
+        const newTracker: SortTracker = {
+            title: undefined,
+            author: undefined,
+            published: undefined,
+            isbn: undefined,
+        };
+
         if (
             sortTracker[sortBy] === "desc" ||
             sortTracker[sortBy] === undefined
         ) {
             sortTracker[sortBy] = "asc";
+            newTracker[sortBy] = "asc";
+            setSortTracker(newTracker);
         } else {
+            newTracker[sortBy] = "desc";
+            setSortTracker(newTracker);
             sortTracker[sortBy] = "desc";
         }
     }
+
+    function showSortArrow(index: BookIndex): ReactNode {
+        switch (sortTracker[index]) {
+            case "desc":
+                return <> &darr;</>;
+            case "asc":
+                return <> &uarr;</>;
+            default:
+                return "";
+        }
+    }
+
     return (
         <table className="mx-auto my-10 bg-slate-400 rounded-md">
             <thead>
@@ -79,7 +102,7 @@ export default function BookTable({ books }: BookTableProps) {
                             sortBooks("title");
                         }}
                     >
-                        Title
+                        Title{showSortArrow("title")}
                     </th>
                     <th
                         className="p-4 hover:underline cursor-pointer"
@@ -87,15 +110,15 @@ export default function BookTable({ books }: BookTableProps) {
                             sortBooks("author");
                         }}
                     >
-                        Author
+                        Author{showSortArrow("author")}
                     </th>
                     <th
-                        className="p-4 hover:underline cursor-pointer"
+                        className="p-4 hover:underline cursor-pointer text-nowrap"
                         onClick={() => {
                             sortBooks("published");
                         }}
                     >
-                        Published
+                        Published{showSortArrow("published")}
                     </th>
                     <th
                         className="p-4 hover:underline cursor-pointer"
@@ -103,7 +126,7 @@ export default function BookTable({ books }: BookTableProps) {
                             sortBooks("isbn");
                         }}
                     >
-                        ISBN
+                        ISBN{showSortArrow("isbn")}
                     </th>
                 </tr>
             </thead>
