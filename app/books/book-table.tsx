@@ -85,14 +85,15 @@ export default function BookTable({ books }: BookTableProps) {
     }
 
     function showSortArrow(index: BookIndex): ReactNode {
-        switch (sortTracker[index]) {
-            case "desc":
-                return <> &darr;</>;
-            case "asc":
-                return <> &uarr;</>;
-            default:
-                return "";
-        }
+        return (
+            <span className="inline-block text-center w-1">
+                {sortTracker[index] === "desc"
+                    ? "↓"
+                    : sortTracker[index] === "asc"
+                    ? "↑"
+                    : ""}
+            </span>
+        );
     }
 
     return (
@@ -121,7 +122,7 @@ export default function BookTable({ books }: BookTableProps) {
                 </button>
             </form>
 
-            <table className="mx-auto my-2 bg-slate-400 rounded-md">
+            <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12">
                 <thead>
                     <tr>
                         <th
@@ -172,7 +173,6 @@ export default function BookTable({ books }: BookTableProps) {
                     })}
                 </tbody>
             </table>
-            <code>{JSON.stringify(books)}</code>
         </div>
     );
 }

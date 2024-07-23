@@ -15,11 +15,11 @@ export default function BookItem({
     isbn,
     formattedDate,
 }: BookItemProps) {
-    function handleClick() {
+    async function handleClick() {
         const doDelete = confirm(`Are you sure you want to delete "${title}"?`);
 
         if (doDelete) {
-            deleteBookAction(id);
+            await deleteBookAction(id);
         }
     }
 
