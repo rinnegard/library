@@ -1,9 +1,8 @@
 "use client";
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { searchBookAction } from "./actions";
-import { useSearchParams } from "next/navigation";
 
 type BookTableProps = {
     books: Books[];
@@ -27,6 +26,10 @@ export default function BookTable({ books }: BookTableProps) {
         published: undefined,
         isbn: undefined,
     });
+
+    useEffect(() => {
+        setSortedBooks(books);
+    }, [books]);
 
     function sortBooks(sortBy: BookIndex) {
         setSortedBooks(
@@ -161,12 +164,15 @@ export default function BookTable({ books }: BookTableProps) {
                             <BookItem
                                 key={book.id}
                                 {...book}
-                                formattedDate={book.published.toLocaleDateString()}
+                                formattedDate={book.published.toLocaleDateString(
+                                    "sv"
+                                )}
                             ></BookItem>
                         );
                     })}
                 </tbody>
             </table>
+            <code>{JSON.stringify(books)}</code>
         </div>
     );
 }

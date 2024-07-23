@@ -1,9 +1,11 @@
 "use client";
 import { type Books } from "@prisma/client";
-import { deleteBookAction } from "./actions";
 import Link from "next/link";
+import { deleteBookAction } from "./actions";
 
-type BookItemProps = Books & { formattedDate: string };
+type BookItemProps = Books & {
+    formattedDate: string;
+};
 
 export default function BookItem({
     id,
