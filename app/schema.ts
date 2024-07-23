@@ -45,28 +45,32 @@ export const AddBookSchema = z.object({
         }, "ISBN is already being used"),
 });
 
-export const UpdateSchema = z.object({
-    id: z.string().trim().cuid(),
-    title: z.string().trim().min(1),
-    author: z.string().trim().min(1),
-    published: z
-        .string()
-        .date("Invalid date, please use YYYY-MM-DD format")
-        .transform((val) => {
-            const date = new Date(val);
-            return date;
-        }),
-    isbn: z
-        .string()
-        .trim()
-        .min(3)
-        .refine(async (current) => {
-            const count = await prisma.books.count({
-                where: {
-                    isbn: current,
-                },
-            });
+export const UpdateSchema = z
+    .object({
+        id: z.string().trim().cuid(),
+        title: z.string().trim().min(1),
+        author: z.string().trim().min(1),
+        published: z
+            .string()
+            .date("Invalid date, please use YYYY-MM-DD format")
+            .transform((val) => {
+                const date = new Date(val);
+                return date;
+            }),
+        isbn: z.string().trim().min(3),
+    })
+    .superRefine(async ({ id, isbn }, ctx) => {
+        const result = await prisma.books.findUnique({
+            where: {
+                isbn: isbn,
+            },
+        });
 
-            return count < 1;
-        }, "ISBN is already being used"),
-});
+        if (result?.id !== id && result !== null) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "ISBN is already being used",
+                path: ["isbn"],
+            });
+        }
+    });
