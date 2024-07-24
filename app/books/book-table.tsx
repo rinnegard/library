@@ -31,10 +31,15 @@ export default function BookTable({ books }: BookTableProps) {
 
     useEffect(() => {
         setSortedBooks(books);
+    }, [books]);
+
+    useEffect(() => {
         sortBooksCallback();
-    }, [books, sortBooksCallback]);
+    }, [sortBooksCallback]);
 
     function sortBooks() {
+        console.log("Sorting");
+
         let sortBy: BookIndex;
         let order: SortOrder;
 
@@ -49,7 +54,7 @@ export default function BookTable({ books }: BookTableProps) {
             return [...currentSortedBooks].sort((a, b) => {
                 let first;
                 let second;
-                if (sortTracker[sortBy] === "asc") {
+                if (order === "asc") {
                     first = a[sortBy];
                     second = b[sortBy];
                 } else {
@@ -74,37 +79,8 @@ export default function BookTable({ books }: BookTableProps) {
         });
     }
 
-    function sortBooksReverse(sortBy: BookIndex) {
-        setSortedBooks(
-            [...sortedBooks].sort((a, b) => {
-                let first;
-                let second;
-                if (
-                    sortTracker[sortBy] === "desc" ||
-                    sortTracker[sortBy] === undefined
-                ) {
-                    first = a[sortBy];
-                    second = b[sortBy];
-                } else {
-                    first = b[sortBy];
-                    second = a[sortBy];
-                }
-
-                if (typeof first === "string" && typeof second === "string") {
-                    return Number(first.localeCompare(second));
-                } else if (first instanceof Date && second instanceof Date) {
-                    if (first > second) {
-                        return 1;
-                    } else if (first < second) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-                //Required for typescript should never be reached
-                return 0;
-            })
-        );
+    function reverseSortOrder(sortBy: BookIndex) {
+        console.log("Reversing sort order");
 
         const newTracker: SortTracker = {
             title: undefined,
@@ -144,13 +120,8 @@ export default function BookTable({ books }: BookTableProps) {
             <form
                 className="flex justify-center"
                 action={async () => {
-                    setSortTracker({
-                        title: undefined,
-                        author: undefined,
-                        published: undefined,
-                        isbn: undefined,
-                    });
                     setSortedBooks(await searchBookAction(searchParam));
+                    sortBooks();
                 }}
             >
                 <input
@@ -177,7 +148,7 @@ export default function BookTable({ books }: BookTableProps) {
                         <th
                             className="p-4 hover:underline cursor-pointer"
                             onClick={() => {
-                                sortBooksReverse("title");
+                                reverseSortOrder("title");
                             }}
                         >
                             Title{showSortArrow("title")}
@@ -185,7 +156,7 @@ export default function BookTable({ books }: BookTableProps) {
                         <th
                             className="p-4 hover:underline cursor-pointer"
                             onClick={() => {
-                                sortBooksReverse("author");
+                                reverseSortOrder("author");
                             }}
                         >
                             Author{showSortArrow("author")}
@@ -193,7 +164,7 @@ export default function BookTable({ books }: BookTableProps) {
                         <th
                             className="p-4 hover:underline cursor-pointer text-nowrap"
                             onClick={() => {
-                                sortBooksReverse("published");
+                                reverseSortOrder("published");
                             }}
                         >
                             Published{showSortArrow("published")}
@@ -201,7 +172,7 @@ export default function BookTable({ books }: BookTableProps) {
                         <th
                             className="p-4 hover:underline cursor-pointer"
                             onClick={() => {
-                                sortBooksReverse("isbn");
+                                reverseSortOrder("isbn");
                             }}
                         >
                             ISBN{showSortArrow("isbn")}
