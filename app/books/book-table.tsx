@@ -3,6 +3,7 @@ import { Books } from "@prisma/client";
 import BookItem from "./book-item";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { searchBookAction } from "./actions";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type BookTableProps = {
     books: Books[];
@@ -19,8 +20,12 @@ type SortTracker = {
 };
 
 export default function BookTable({ books }: BookTableProps) {
+    const searchQuery = useSearchParams();
+    const pathname = usePathname();
     const [sortedBooks, setSortedBooks] = useState(books);
-    const [searchParam, setSearchParam] = useState("");
+    const [searchParam, setSearchParam] = useState(
+        searchQuery.get("query") || ""
+    );
     const [sortTracker, setSortTracker] = useState<SortTracker>({
         title: undefined,
         author: undefined,
@@ -115,6 +120,21 @@ export default function BookTable({ books }: BookTableProps) {
         );
     }
 
+    function addQueryToURL() {
+        const params = new URLSearchParams(searchQuery);
+
+        if (searchParam) {
+            params.set("query", searchParam);
+        } else {
+            params.delete("query");
+        }
+        window.history.replaceState(
+            null,
+            "",
+            `${pathname}?${params.toString()}`
+        );
+    }
+
     return (
         <div>
             <form
@@ -122,6 +142,7 @@ export default function BookTable({ books }: BookTableProps) {
                 action={async () => {
                     setSortedBooks(await searchBookAction(searchParam));
                     sortBooks();
+                    addQueryToURL();
                 }}
             >
                 <input
