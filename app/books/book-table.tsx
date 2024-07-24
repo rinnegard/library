@@ -4,7 +4,6 @@ import BookItem from "./book-item";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { searchBookAction } from "./actions";
 import { usePathname, useSearchParams } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 type BookTableProps = {
     books: Books[];
