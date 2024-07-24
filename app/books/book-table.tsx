@@ -4,6 +4,7 @@ import BookItem from "./book-item";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { searchBookAction } from "./actions";
 import { usePathname, useSearchParams } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 type BookTableProps = {
     books: Books[];
@@ -33,6 +34,18 @@ export default function BookTable({ books }: BookTableProps) {
         isbn: undefined,
     });
     const sortBooksCallback = useCallback(sortBooks, [sortTracker]);
+
+    useEffect(() => {
+        if (searchQuery.get("query") === null) {
+            setSearchParam("");
+            setSortTracker({
+                title: undefined,
+                author: undefined,
+                published: undefined,
+                isbn: undefined,
+            });
+        }
+    }, [searchQuery]);
 
     useEffect(() => {
         setSortedBooks(books);
