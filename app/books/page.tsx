@@ -1,9 +1,21 @@
 import prisma from "@/lib/prisma";
 import Main from "../components/main";
 import BookTable from "./book-table";
+import { searchBookAction } from "./actions";
+import { Books } from "@prisma/client";
 
-export default async function BooksPage() {
-    const books = await prisma.books.findMany();
+type BookPageProps = {
+    searchParams: { [key: string]: string | undefined };
+};
+
+export default async function BooksPage({ searchParams }: BookPageProps) {
+    const query = searchParams["query"];
+    let books: Books[];
+    if (query != null) {
+        books = await searchBookAction(query);
+    } else {
+        books = await prisma.books.findMany();
+    }
 
     return (
         <Main>

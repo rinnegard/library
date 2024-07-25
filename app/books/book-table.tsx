@@ -1,8 +1,8 @@
 "use client";
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import { searchBookAction } from "./actions";
+import { ReactNode, useEffect, useMemo, useState } from "react";
+import { deleteBookAction, searchBookAction } from "./actions";
 import { usePathname, useSearchParams } from "next/navigation";
 
 type BookTableProps = {
@@ -22,7 +22,7 @@ type SortTracker = {
 export default function BookTable({ books }: BookTableProps) {
     const searchQuery = useSearchParams();
     const pathname = usePathname();
-    const [sortedBooks, setSortedBooks] = useState(books);
+    const [filteredBooks, setFilteredBooks] = useState<Books[]>(books);
     const [searchParam, setSearchParam] = useState(
         searchQuery.get("query") || ""
     );
@@ -32,7 +32,13 @@ export default function BookTable({ books }: BookTableProps) {
         published: undefined,
         isbn: undefined,
     });
-    const sortBooksCallback = useCallback(sortBooks, [sortTracker]);
+
+    const sortedBooks = useMemo(sortBooks, [filteredBooks, sortTracker]);
+
+    async function searchBooks() {
+        const newBooks = await searchBookAction(searchParam);
+        setFilteredBooks(newBooks);
+    }
 
     useEffect(() => {
         if (searchQuery.get("query") === null) {
@@ -43,16 +49,9 @@ export default function BookTable({ books }: BookTableProps) {
                 published: undefined,
                 isbn: undefined,
             });
+            setFilteredBooks(books);
         }
-    }, [searchQuery]);
-
-    useEffect(() => {
-        setSortedBooks(books);
-    }, [books]);
-
-    useEffect(() => {
-        sortBooksCallback();
-    }, [sortBooksCallback]);
+    }, [searchQuery, books]);
 
     function sortBooks() {
         console.log("Sorting");
@@ -67,32 +66,30 @@ export default function BookTable({ books }: BookTableProps) {
             }
         }
 
-        setSortedBooks((currentSortedBooks) => {
-            return [...currentSortedBooks].sort((a, b) => {
-                let first;
-                let second;
-                if (order === "asc") {
-                    first = a[sortBy];
-                    second = b[sortBy];
-                } else {
-                    first = b[sortBy];
-                    second = a[sortBy];
-                }
+        return [...filteredBooks].sort((a, b) => {
+            let first;
+            let second;
+            if (order === "asc") {
+                first = a[sortBy];
+                second = b[sortBy];
+            } else {
+                first = b[sortBy];
+                second = a[sortBy];
+            }
 
-                if (typeof first === "string" && typeof second === "string") {
-                    return Number(first.localeCompare(second));
-                } else if (first instanceof Date && second instanceof Date) {
-                    if (first > second) {
-                        return 1;
-                    } else if (first < second) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
+            if (typeof first === "string" && typeof second === "string") {
+                return Number(first.localeCompare(second));
+            } else if (first instanceof Date && second instanceof Date) {
+                if (first > second) {
+                    return 1;
+                } else if (first < second) {
+                    return -1;
+                } else {
+                    return 0;
                 }
-                //Required for typescript should never be reached
-                return 0;
-            });
+            }
+            //Required for typescript should never be reached
+            return 0;
         });
     }
 
@@ -147,13 +144,20 @@ export default function BookTable({ books }: BookTableProps) {
         );
     }
 
+    async function handleDeleteBook(id: string) {
+        await deleteBookAction(id);
+        setFilteredBooks((prevBooks) =>
+            prevBooks.filter((book) => book.id !== id)
+        );
+    }
+
     return (
         <div>
             <form
                 className="flex justify-center"
                 action={async () => {
-                    setSortedBooks(await searchBookAction(searchParam));
-                    sortBooks();
+                    const newBooks = await searchBookAction(searchParam);
+                    setFilteredBooks(newBooks);
                     addQueryToURL();
                 }}
             >
@@ -221,6 +225,7 @@ export default function BookTable({ books }: BookTableProps) {
                                 formattedDate={book.published.toLocaleDateString(
                                     "sv"
                                 )}
+                                onDelete={handleDeleteBook}
                             ></BookItem>
                         );
                     })}

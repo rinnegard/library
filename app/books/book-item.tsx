@@ -5,6 +5,7 @@ import { deleteBookAction } from "./actions";
 
 type BookItemProps = Books & {
     formattedDate: string;
+    onDelete: (id: string) => void;
 };
 
 export default function BookItem({
@@ -14,12 +15,13 @@ export default function BookItem({
     published,
     isbn,
     formattedDate,
+    onDelete,
 }: BookItemProps) {
     async function handleClick() {
         const doDelete = confirm(`Are you sure you want to delete "${title}"?`);
 
         if (doDelete) {
-            await deleteBookAction(id);
+            onDelete(id);
         }
     }
 
