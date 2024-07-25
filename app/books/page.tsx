@@ -1,27 +1,23 @@
-import prisma from "@/lib/prisma";
 import Main from "../components/main";
+import SearchBar from "./search-bar";
 import BookTable from "./book-table";
-import { searchBookAction } from "./actions";
-import { Books } from "@prisma/client";
+import { Suspense } from "react";
+import TableSkeleton from "./table-skeleton";
 
 type BookPageProps = {
-    searchParams: { [key: string]: string | undefined };
+    searchParams: { query?: string };
 };
 
 export default async function BooksPage({ searchParams }: BookPageProps) {
-    const query = searchParams["query"];
-    let books: Books[];
-    if (query != null) {
-        books = await searchBookAction(query);
-    } else {
-        books = await prisma.books.findMany();
-    }
+    const query = searchParams.query;
 
     return (
         <Main>
-            <h1 className="text-3xl text-center">Books</h1>
-
-            <BookTable books={books}></BookTable>
+            <h1 className="text-3xl text-center mb-8">Books</h1>
+            <SearchBar query={query}></SearchBar>
+            <Suspense key={query} fallback={TableSkeleton()}>
+                <BookTable query={query}></BookTable>
+            </Suspense>
         </Main>
     );
 }

@@ -15,7 +15,6 @@ export default function AddNewPage() {
         const result = await createBookAction(formData);
 
         if (result.success) {
-            console.log(result);
             setErrors(undefined);
             redirect("/books");
         }
@@ -25,7 +24,7 @@ export default function AddNewPage() {
 
     return (
         <Main>
-            <h1 className="text-3xl text-center">Add New Book</h1>
+            <h1 className="text-3xl text-center mb-8">Add New Book</h1>
             <form action={action} className="flex flex-col px-2">
                 <label htmlFor="title" className="pt-4">
                     Title

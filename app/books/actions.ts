@@ -11,8 +11,6 @@ export async function deleteBookAction(id: string) {
         },
     });
 
-    console.log(result);
-
     revalidatePath("/books");
 }
 
@@ -23,6 +21,14 @@ export async function getBookAction(id: string) {
             id: id,
         },
     });
+
+    return result;
+}
+
+export async function getAllBooksAction() {
+    const result = await prisma.books.findMany();
+
+    revalidatePath("/books");
 
     return result;
 }
