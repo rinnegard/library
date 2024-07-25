@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type SearchBarProps = {
     query?: string;
@@ -18,10 +18,15 @@ export default function SearchBar({ query }: SearchBarProps) {
         if (searchValue.trim()) {
             params.set("query", searchValue);
         } else {
+            params.set("query", "");
             params.delete("query");
         }
         replace(`${pathname}?${params.toString()}`);
     }
+
+    useEffect(() => {
+        console.log(query);
+    }, [query]);
 
     return (
         <form
