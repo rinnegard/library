@@ -5,6 +5,7 @@ import Main from "../components/main";
 import createBookAction from "./actions";
 import { redirect } from "next/navigation";
 import { AddBookFail } from "../schema";
+import SubmitButton from "./submit-button";
 
 export default function AddNewPage() {
     const [errors, setErrors] = useState<AddBookFail["errors"] | undefined>(
@@ -66,12 +67,13 @@ export default function AddNewPage() {
                     className="border border-lime-300"
                 />
                 <FormError errors={errors?.isbn?._errors}></FormError>
-                <button
+                <SubmitButton></SubmitButton>
+                {/* <button
                     type="submit"
                     className="mt-4 bg-lime-300 h-10 w-1/2 self-center hover:bg-lime-400 active:bg-lime-500"
                 >
                     Add Book
-                </button>
+                </button> */}
             </form>
         </Main>
     );
