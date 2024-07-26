@@ -33,9 +33,15 @@ export default function BookItem({
                     {title}
                 </Link>
             </td>
-            <td className="border border-black px-4 py-2">{author}</td>
-            <td className="border border-black px-4 py-2">{formattedDate}</td>
-            <td className="border border-black px-4 py-2">{isbn}</td>
+            <td className="border border-black px-4 py-2 break-words">
+                {author}
+            </td>
+            <td className="border border-black px-4 py-2 break-words">
+                {formattedDate}
+            </td>
+            <td className="border border-black px-4 py-2 break-words">
+                {isbn}
+            </td>
             <td className="border border-black px-4 py-2 text-center">
                 <button
                     onClick={handleClick}
