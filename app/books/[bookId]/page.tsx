@@ -1,7 +1,7 @@
 import Main from "@/app/components/main";
 import { getBookAction } from "../actions";
 import { notFound } from "next/navigation";
-import BookDetails from "./book-details";
+import BookDetailsEdit from "./book-details-edit";
 import BookView from "./book-view";
 
 export type BookDetailsPageProps = {
@@ -23,10 +23,10 @@ export default async function BookDetailsPage({
         <Main>
             <h1 className="text-3xl text-center">Book Details</h1>
             <BookView isbn={book.isbn}></BookView>
-            <BookDetails
+            <BookDetailsEdit
                 {...book}
                 formattedDate={book.published.toLocaleDateString()}
-            ></BookDetails>
+            ></BookDetailsEdit>
         </Main>
     );
 }

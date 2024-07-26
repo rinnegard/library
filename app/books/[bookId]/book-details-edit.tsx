@@ -8,7 +8,7 @@ import FormError from "@/app/components/form-error";
 
 type BookItemProps = Books & { formattedDate: string };
 
-export default function BookDetails({
+export default function BookDetailsEdit({
     id,
     title,
     author,

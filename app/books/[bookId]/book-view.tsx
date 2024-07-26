@@ -10,20 +10,20 @@ export default async function BookView({ isbn }: BookViewProps) {
     );
     const data = await res.json();
     const coverUrl = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
-    console.log(coverUrl);
 
-    const description = data.items?.[0]?.volumeInfo?.description;
+    const description =
+        data.items?.[0]?.volumeInfo?.description || "Not available";
 
     return (
-        <div className="flex gap-8 mx-auto w-2/3">
+        <div className="flex gap-8 items-start mx-auto w-2/3">
             <Image
-                className=""
+                className="h-auto w-1/4 bg-gray-400"
                 alt=""
                 src={coverUrl}
-                height={200}
-                width={200}
+                height={100}
+                width={100}
             />
-            <div>
+            <div className="w-3/4">
                 <h1 className="text-xl">Description: </h1>
                 <p>{description}</p>
             </div>
