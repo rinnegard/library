@@ -9,14 +9,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Books {
-  id String @id  @unique @default(cuid())
-  title String
-  author String
+  id        String   @id @unique @default(cuid())
+  title     String
+  author    String
   published DateTime
-  isbn String @unique
+  isbn      String   @unique
 }
