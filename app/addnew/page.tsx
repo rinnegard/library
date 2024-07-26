@@ -68,12 +68,6 @@ export default function AddNewPage() {
                 />
                 <FormError errors={errors?.isbn?._errors}></FormError>
                 <SubmitButton></SubmitButton>
-                {/* <button
-                    type="submit"
-                    className="mt-4 bg-lime-300 h-10 w-1/2 self-center hover:bg-lime-400 active:bg-lime-500"
-                >
-                    Add Book
-                </button> */}
             </form>
         </Main>
     );

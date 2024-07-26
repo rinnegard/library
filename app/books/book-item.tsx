@@ -25,7 +25,7 @@ export default function BookItem({
 
     return (
         <tr key={id} className="odd:bg-slate-200">
-            <td className="border border-black px-4 py-2">
+            <td className="border border-black px-4 py-2 break-words">
                 <Link
                     href={`/books/${id}`}
                     className="text-blue-600 underline visited:text-purple-600"

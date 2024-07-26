@@ -6,8 +6,16 @@ import Footer from "./components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// export const metadata: Metadata = {
+//     title: "Library",
+//     description: "Test library for learning nextjs",
+// };
+
 export const metadata: Metadata = {
-    title: "Library",
+    title: {
+        template: "%s | Library",
+        default: "Home | Library",
+    },
     description: "Test library for learning nextjs",
 };
 

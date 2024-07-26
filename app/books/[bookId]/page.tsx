@@ -3,11 +3,16 @@ import { getBookAction } from "../actions";
 import { notFound } from "next/navigation";
 import BookDetailsEdit from "./book-details-edit";
 import BookView from "./book-view";
+import { Metadata } from "next";
 
 export type BookDetailsPageProps = {
     params: {
         bookId: string;
     };
+};
+
+export const metadata: Metadata = {
+    title: "Book Details",
 };
 
 export default async function BookDetailsPage({

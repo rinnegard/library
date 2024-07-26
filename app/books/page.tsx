@@ -5,9 +5,19 @@ import BooksPageSkeleton from "./books-page-skeleton";
 import { Books } from "@prisma/client";
 import { searchBookAction, getAllBooksAction } from "./actions";
 import BookTable from "./book-table";
+import { Metadata } from "next";
 
 type BookPageProps = {
     searchParams: { query?: string };
+};
+
+// export const metadata: Metadata = {
+//     title: "test",
+//     description: "Test library for learning nextjs",
+// };
+
+export const metadata: Metadata = {
+    title: "Books",
 };
 
 export default async function BooksPage({ searchParams }: BookPageProps) {
