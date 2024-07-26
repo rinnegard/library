@@ -1,7 +1,7 @@
 import Main from "../components/main";
 import SearchBar from "./search-bar";
 import { Suspense } from "react";
-import TableSkeleton from "./table-skeleton";
+import BooksPageSkeleton from "./books-page-skeleton";
 import { Books } from "@prisma/client";
 import { searchBookAction, getAllBooksAction } from "./actions";
 import BookTable from "./book-table";
@@ -21,9 +21,9 @@ export default async function BooksPage({ searchParams }: BookPageProps) {
 
     return (
         <Main>
-            <h1 className="text-3xl text-center mb-8">Books</h1>
-            <SearchBar query={query}></SearchBar>
-            <Suspense key={query} fallback={TableSkeleton()}>
+            <Suspense key={query} fallback={BooksPageSkeleton()}>
+                <h1 className="text-3xl text-center mb-8">Books</h1>
+                <SearchBar query={query}></SearchBar>
                 <BookTable books={books} />
             </Suspense>
         </Main>
