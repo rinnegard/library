@@ -13,7 +13,7 @@ export default function TableHeadCell({
 }: TableHeadCellProps) {
     return (
         <th
-            className={`p-4 hover:underline cursor-pointer text-nowrap ${className}`}
+            className={`border border-black text-left p-4 hover:underline cursor-pointer text-nowrap ${className}`}
             onClick={() => {
                 if (onClick) {
                     onClick("title");

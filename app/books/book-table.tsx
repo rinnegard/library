@@ -110,7 +110,7 @@ export default function BookTable({ books }: BookTableBodyProps) {
     }
 
     return (
-        <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12 table-fixed">
+        <table className="border-collapse mx-auto my-2 bg-slate-400 border border-black w-11/12 table-fixed">
             <thead>
                 <tr>
                     <TableHeadCell
@@ -141,7 +141,7 @@ export default function BookTable({ books }: BookTableBodyProps) {
                     >
                         ISBN{showSortArrow("isbn")}
                     </TableHeadCell>
-                    <TableHeadCell className="w-10"></TableHeadCell>
+                    <TableHeadCell className="w-12"></TableHeadCell>
                 </tr>
             </thead>
             <tbody>
