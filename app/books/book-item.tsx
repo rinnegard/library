@@ -36,7 +36,7 @@ export default function BookItem({
             <td className="p-2">{author}</td>
             <td className="p-2">{formattedDate}</td>
             <td className="p-2">{isbn}</td>
-            <td className="p-2">
+            <td className="p-2 text-center">
                 <button
                     onClick={handleClick}
                     type="button"

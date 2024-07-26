@@ -109,7 +109,7 @@ export default function BookTable({ books }: BookTableBodyProps) {
     }
 
     return (
-        <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12">
+        <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12 table-fixed">
             <thead>
                 <tr>
                     <th
@@ -144,6 +144,10 @@ export default function BookTable({ books }: BookTableBodyProps) {
                     >
                         ISBN{showSortArrow("isbn")}
                     </th>
+                    <th
+                        className="p-4 hover:underline cursor-pointer w-10"
+                        onClick={() => {}}
+                    ></th>
                 </tr>
             </thead>
             <tbody>
