@@ -25,7 +25,7 @@ export default async function BookDetailsPage({
             <BookView isbn={book.isbn}></BookView>
             <BookDetailsEdit
                 {...book}
-                formattedDate={book.published.toLocaleDateString()}
+                formattedDate={book.published.toLocaleDateString("sv")}
             ></BookDetailsEdit>
         </Main>
     );
