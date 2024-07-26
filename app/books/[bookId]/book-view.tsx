@@ -4,12 +4,14 @@ type BookViewProps = {
     isbn: string;
 };
 
+import type { GoogleBooksResponse } from "@/app/googlebooks-types";
+
 export default async function BookView({ isbn }: BookViewProps) {
     const res = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`
     );
-    const data = await res.json();
-    const coverUrl = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+    const data = (await res.json()) as GoogleBooksResponse;
+    const coverUrl = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || "";
 
     const description =
         data.items?.[0]?.volumeInfo?.description || "Not available";

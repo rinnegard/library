@@ -11,11 +11,6 @@ type BookPageProps = {
     searchParams: { query?: string };
 };
 
-// export const metadata: Metadata = {
-//     title: "test",
-//     description: "Test library for learning nextjs",
-// };
-
 export const metadata: Metadata = {
     title: "Books",
 };
