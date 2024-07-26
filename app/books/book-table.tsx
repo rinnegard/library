@@ -2,6 +2,7 @@
 import { Books } from "@prisma/client";
 import BookItem from "./book-item";
 import { ReactNode, useMemo, useState } from "react";
+import TableHeadCell from "./table-head-cell";
 
 type BookTableBodyProps = {
     books: Books[];
@@ -112,42 +113,35 @@ export default function BookTable({ books }: BookTableBodyProps) {
         <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12 table-fixed">
             <thead>
                 <tr>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
+                    <TableHeadCell
                         onClick={() => {
                             reverseSortOrder("title");
                         }}
                     >
                         Title{showSortArrow("title")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
+                    </TableHeadCell>
+                    <TableHeadCell
                         onClick={() => {
                             reverseSortOrder("author");
                         }}
                     >
                         Author{showSortArrow("author")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer text-nowrap"
+                    </TableHeadCell>
+                    <TableHeadCell
                         onClick={() => {
                             reverseSortOrder("published");
                         }}
                     >
                         Published{showSortArrow("published")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer"
+                    </TableHeadCell>
+                    <TableHeadCell
                         onClick={() => {
                             reverseSortOrder("isbn");
                         }}
                     >
                         ISBN{showSortArrow("isbn")}
-                    </th>
-                    <th
-                        className="p-4 hover:underline cursor-pointer w-10"
-                        onClick={() => {}}
-                    ></th>
+                    </TableHeadCell>
+                    <TableHeadCell className="w-10"></TableHeadCell>
                 </tr>
             </thead>
             <tbody>
