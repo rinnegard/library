@@ -18,7 +18,7 @@ export default async function BookView({ isbn }: BookViewProps) {
 
     return (
         <div className="flex gap-8 mx-auto w-full">
-            <div className="h-72 w-1/4 bg-gray-400 relative">
+            <div className="h-96 w-1/4 bg-gray-400 relative">
                 <Image alt="" src={coverUrl} fill />
             </div>
 

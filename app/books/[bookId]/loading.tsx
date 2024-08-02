@@ -5,7 +5,7 @@ export default function Loading() {
         <Main>
             <h1 className="text-3xl text-center">Book Details</h1>
             <div className="flex gap-8 mx-auto w-full">
-                <div className="h-72 w-1/4 bg-gray-400 relative"></div>
+                <div className="h-96 w-1/4 bg-gray-400 relative"></div>
 
                 <div className="w-3/4">
                     <h1 className="text-xl">Description: </h1>
