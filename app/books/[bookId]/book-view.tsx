@@ -17,14 +17,11 @@ export default async function BookView({ isbn }: BookViewProps) {
         data.items?.[0]?.volumeInfo?.description || "Not available";
 
     return (
-        <div className="flex gap-8 items-start mx-auto w-2/3">
-            <Image
-                className="h-auto w-1/4 bg-gray-400"
-                alt=""
-                src={coverUrl}
-                height={100}
-                width={100}
-            />
+        <div className="flex gap-8 mx-auto w-full">
+            <div className="h-72 w-1/4 bg-gray-400 relative">
+                <Image alt="" src={coverUrl} fill />
+            </div>
+
             <div className="w-3/4">
                 <h1 className="text-xl">Description: </h1>
                 <p>{description}</p>

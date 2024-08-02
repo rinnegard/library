@@ -21,15 +21,11 @@ export default async function BooksPage({ searchParams }: BookPageProps) {
         ? await searchBookAction(query)
         : await getAllBooksAction();
 
-    console.log("Render", query);
-
     return (
-        <Suspense fallback={<BooksPageSkeleton />}>
-            <Main>
-                <h1 className="text-3xl text-center mb-8">Books</h1>
-                <SearchBar></SearchBar>
-                <BookTable books={books} />
-            </Main>
-        </Suspense>
+        <Main>
+            <h1 className="text-3xl text-center mb-8">Books</h1>
+            <SearchBar></SearchBar>
+            <BookTable books={books} />
+        </Main>
     );
 }

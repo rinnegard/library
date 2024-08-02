@@ -33,9 +33,55 @@ export default function TableSkeleton() {
                         <th className="border border-black text-left p-4 hover:underline cursor-pointer text-nowrap">
                             ISBN
                         </th>
+                        <th className="border w-12 border-black text-left p-4 hover:underline cursor-pointer text-nowrap"></th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <tr className="odd:bg-slate-200">
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 text-center">
+                            <button className="bg-red-600 w-5 rounded-full">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                    <tr className="odd:bg-slate-200">
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 text-center">
+                            <button className="bg-red-600 w-5 rounded-full">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                    <tr className="odd:bg-slate-200">
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 text-center">
+                            <button className="bg-red-600 w-5 rounded-full">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                    <tr className="odd:bg-slate-200">
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 break-words"></td>
+                        <td className="border border-black px-4 py-2 text-center">
+                            <button className="bg-red-600 w-5 rounded-full">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </Main>
     );
