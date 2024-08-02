@@ -18,19 +18,19 @@ export default function TableSkeleton() {
                     Search
                 </button>
             </form>
-            <table className="mx-auto my-2 bg-slate-400 rounded-md w-11/12">
+            <table className="border-collapse mx-auto my-2 bg-slate-400 border border-black w-11/12 table-fixed">
                 <thead>
                     <tr>
-                        <th className="p-4 hover:underline cursor-pointer">
+                        <th className="border border-black text-left p-4 hover:underline cursor-pointer text-nowrap">
                             Title
                         </th>
-                        <th className="p-4 hover:underline cursor-pointer">
+                        <th className="border border-black text-left p-4 hover:underline cursor-pointer text-nowrap">
                             Author
                         </th>
-                        <th className="p-4 hover:underline cursor-pointer text-nowrap">
+                        <th className="border border-black text-left p-4 hover:underline cursor-pointer text-nowrap">
                             Published
                         </th>
-                        <th className="p-4 hover:underline cursor-pointer">
+                        <th className="border border-black text-left p-4 hover:underline cursor-pointer text-nowrap">
                             ISBN
                         </th>
                     </tr>

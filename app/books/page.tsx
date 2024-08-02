@@ -16,21 +16,20 @@ export const metadata: Metadata = {
 };
 
 export default async function BooksPage({ searchParams }: BookPageProps) {
-    const query = searchParams.query;
-    let books: Books[];
-    if (query != undefined) {
-        books = await searchBookAction(query);
-    } else {
-        books = await getAllBooksAction();
-    }
+    const query = searchParams.query || "";
+    const books: Books[] = query
+        ? await searchBookAction(query)
+        : await getAllBooksAction();
+
+    console.log("Render", query);
 
     return (
-        <Main>
-            <Suspense key={query} fallback={BooksPageSkeleton()}>
+        <Suspense fallback={<BooksPageSkeleton />}>
+            <Main>
                 <h1 className="text-3xl text-center mb-8">Books</h1>
-                <SearchBar query={query}></SearchBar>
+                <SearchBar></SearchBar>
                 <BookTable books={books} />
-            </Suspense>
-        </Main>
+            </Main>
+        </Suspense>
     );
 }
