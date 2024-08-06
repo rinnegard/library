@@ -32,7 +32,8 @@ export default function SearchBar() {
     return (
         <form
             className="flex justify-center"
-            action={() => {
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                event.preventDefault();
                 addQueryToURL();
             }}
         >

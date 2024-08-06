@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
 export default async function BooksPage({ searchParams }: BookPageProps) {
     const query = searchParams.query || "";
+
     const books: Books[] = query
         ? await searchBookAction(query)
         : await getAllBooksAction();
