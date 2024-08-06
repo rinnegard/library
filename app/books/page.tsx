@@ -1,7 +1,5 @@
 import Main from "../components/main";
 import SearchBar from "./search-bar";
-import { Suspense } from "react";
-import BooksPageSkeleton from "./books-page-skeleton";
 import { Books } from "@prisma/client";
 import { searchBookAction, getAllBooksAction } from "./actions";
 import BookTable from "./book-table";
