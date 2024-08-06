@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function SearchBar() {
     const searchParam = useSearchParams();
@@ -9,6 +9,12 @@ export default function SearchBar() {
     const { push } = useRouter();
 
     const searchDefault = searchParam.get("query")?.toString();
+
+    useEffect(() => {
+        if (searchRef.current != null) {
+            searchRef.current.value = searchParam.get("query") || "";
+        }
+    }, [searchParam]);
 
     function addQueryToURL() {
         const params = new URLSearchParams(searchParam);
