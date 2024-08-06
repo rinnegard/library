@@ -6,7 +6,9 @@ export default function SearchBar() {
     const searchParam = useSearchParams();
     const pathname = usePathname();
     const searchRef = useRef<HTMLInputElement>(null);
-    const { replace } = useRouter();
+    const { push } = useRouter();
+
+    const searchDefault = searchParam.get("query")?.toString();
 
     function addQueryToURL() {
         const params = new URLSearchParams(searchParam);
@@ -18,7 +20,7 @@ export default function SearchBar() {
             params.set("query", "");
             params.delete("query");
         }
-        replace(`${pathname}?${params.toString()}`);
+        push(`${pathname}?${params.toString()}`);
     }
 
     return (
@@ -33,7 +35,7 @@ export default function SearchBar() {
                 ref={searchRef}
                 className="border border-lime-300 rounded-l-md outline-none pl-2"
                 type="search"
-                defaultValue={searchParam.get("query") || ""}
+                defaultValue={searchDefault}
             />
             <button
                 type="submit"
